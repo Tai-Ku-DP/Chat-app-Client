@@ -1,14 +1,22 @@
 /* eslint-disable @next/next/no-img-element */
 import Image from "next/image";
+import { ApiAuth } from "~/apis/api-auth";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { cn } from "~/lib/utils";
 
-// import image from "../../public/images/image.png";
-
 export default function LoginPage() {
+  const handleLogin = async () => {
+    const res = await ApiAuth.login({
+      email: "taicucom@gmail.com ",
+      password: "Tai123123",
+    });
+
+    console.log(res);
+  };
+
   return (
     <div className="flex min-h-svh flex-col items-center justify-center bg-muted p-6 md:p-10">
       <div className="w-full max-w-sm md:max-w-3xl">
@@ -44,7 +52,11 @@ export default function LoginPage() {
                     </div>
                     <Input id="password" type="password" required />
                   </div>
-                  <Button type="submit" className="w-full">
+                  <Button
+                    type="submit"
+                    className="w-full"
+                    onClick={handleLogin}
+                  >
                     Login
                   </Button>
                   <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
