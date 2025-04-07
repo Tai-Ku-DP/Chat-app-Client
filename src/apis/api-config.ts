@@ -1,5 +1,8 @@
 import { ApisauceInstance, create } from "apisauce";
 
+import Nookies from "nookies";
+import { CHAT_APP_CONSTANTS } from "~/lib";
+
 class Api {
   private static instance: ApisauceInstance;
   private static token: string;
@@ -9,7 +12,7 @@ class Api {
       Api.instance = create({ baseURL: process.env.NEXT_PUBLIC_BASE_URL });
       Api.instance.axiosInstance.interceptors.request.use(
         (request) => {
-          const token = request?.headers?.token || Api.token;
+          const token = Api.token || Nookies.get(null)[CHAT_APP_CONSTANTS.Auth];
 
           if (token) {
             request.headers["Authorization"] = "Bearer " + token;

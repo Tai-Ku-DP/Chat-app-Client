@@ -35,6 +35,7 @@ export type GeneralApiProblem =
    * Something truly unexpected happened. Most likely can try again. This is a catch all.
    */
   | { kind: "unknown"; temporary: true }
+  | { kind: "conflict" }
   /**
    * The data we received is not in the expected format.
    */
@@ -67,6 +68,10 @@ export function getGeneralApiProblem(
           return { kind: "forbidden" };
         case 404:
           return { kind: "not-found" };
+
+        case 409:
+          return { kind: "conflict" };
+
         default:
           return { kind: "rejected" };
       }
