@@ -1,11 +1,11 @@
 import { useCallback, useState } from "react";
 import { IFormSignup } from "../schema";
-import { ApiAuth } from "~/apis/api-auth";
-import { CHAT_APP_CONSTANTS, sleep } from "~/lib";
+import { sleep } from "~/lib";
 import { toast } from "sonner";
 
-import nookies from "nookies";
 import { useRouter } from "next/router";
+import { ApiAuth } from "~/apis";
+import { setCookiesUser } from "../../lib";
 
 export const useActionsSignup = () => {
   const [loadingSignup, setLoadingSignup] = useState(false);
@@ -37,7 +37,9 @@ export const useActionsSignup = () => {
         position: "top-center",
       });
 
-      nookies.set(null, CHAT_APP_CONSTANTS.Auth, res.result.token);
+      setCookiesUser({
+        value: res.result.token,
+      });
       router.replace("/");
     } finally {
       setLoadingSignup(false);

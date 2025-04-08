@@ -5,7 +5,7 @@ import { Input } from "~/components/ui/input";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { cn } from "~/lib/utils";
+import { cn } from "~/lib/common/utils";
 import { CardWrapper } from "../components";
 import { IFormSignup, schema } from "./schema";
 import { useActionsSignup } from "./hook/useActionsSignup";

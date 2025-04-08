@@ -1,9 +1,9 @@
 import { NextPageContext } from "next";
 import Image from "next/image";
-import { CHAT_APP_CONSTANTS, directionServerSide } from "~/lib";
-import Nookies from "nookies";
+import { directionServerSide } from "~/lib";
 import { ApiUser } from "~/apis/user";
-import { Api } from "~/apis/api-config";
+import { Api } from "~/apis/config/api-config";
+import { getCookiesUser } from "~/features";
 
 export default function Home() {
   return (
@@ -107,7 +107,7 @@ export default function Home() {
 }
 
 export const getServerSideProps = async (ctx: NextPageContext) => {
-  const cookies = Nookies.get(ctx)[CHAT_APP_CONSTANTS.Auth];
+  const cookies = getCookiesUser(ctx);
 
   if (!cookies) {
     directionServerSide("/login", ctx);
@@ -116,9 +116,12 @@ export const getServerSideProps = async (ctx: NextPageContext) => {
 
   Api.setToken(cookies);
 
-  const res = await ApiUser.getProfile();
+  const user = await ApiUser.getProfile();
 
-  console.log(res);
+  if (!user) {
+    directionServerSide("/login", ctx);
+    return;
+  }
 
   return {
     props: {

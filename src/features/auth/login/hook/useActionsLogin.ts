@@ -1,10 +1,9 @@
 import { useCallback, useState } from "react";
-import { ApiAuth } from "~/apis/api-auth";
-import { CHAT_APP_CONSTANTS } from "~/lib";
-import nookies from "nookies";
 import { useRouter } from "next/router";
 import { toast } from "sonner";
 import { IFormLogin } from "../schema";
+import { ApiAuth } from "~/apis";
+import { setCookiesUser } from "../../lib";
 
 export const useActionsLogin = () => {
   const [loadingLogin, setLoadingLogin] = useState(false);
@@ -28,12 +27,16 @@ export const useActionsLogin = () => {
           position: "top-center",
         });
 
-        nookies.set(null, CHAT_APP_CONSTANTS.Auth, res.result.token);
+        setCookiesUser({
+          value: res.result.token,
+        });
         router.replace("/");
       } finally {
         setLoadingLogin(false);
       }
     },
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [router]
   );
 
