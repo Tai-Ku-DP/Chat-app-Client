@@ -1,5 +1,6 @@
 import React from "react";
 import dynamic from "next/dynamic";
+import { observer } from "mobx-react-lite";
 
 type IProps = {
   children: React.ReactNode;
@@ -13,7 +14,7 @@ const Sidebar = dynamic(() => import("./sidebar").then((mo) => mo.Sidebar), {
   ssr: false,
 });
 
-export const Layout: React.FC<IProps> = ({ children }) => {
+export const Layout: React.FC<IProps> = observer(({ children }) => {
   return (
     <div className="flex">
       <Sidebar />
@@ -24,4 +25,4 @@ export const Layout: React.FC<IProps> = ({ children }) => {
       </div>
     </div>
   );
-};
+});

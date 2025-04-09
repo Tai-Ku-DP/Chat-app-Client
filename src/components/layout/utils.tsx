@@ -1,4 +1,4 @@
-import { User, Users } from "lucide-react";
+import { MessageSquare, User, Users } from "lucide-react";
 import { JSX } from "react/jsx-runtime";
 
 export type IMenuItem = {
@@ -17,5 +17,10 @@ export const CONSTANT_MENU_ITEM: IMenuItem[] = [
     href: "friend-request",
     label: "Friend request",
     icon: <Users />,
+  },
+  {
+    href: "conversation",
+    label: "Conversations",
+    icon: <MessageSquare />,
   },
 ];

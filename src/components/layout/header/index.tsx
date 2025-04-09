@@ -3,10 +3,13 @@
 import { Bell, Menu, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+import { useStores } from "~/store/root-store/root-store-context";
+import { observer } from "mobx-react-lite";
 
 const Space = () => <div className="flex-1" />;
-export const Header = () => {
+export const Header = observer(() => {
   const { theme, setTheme } = useTheme();
+  const { userStore } = useStores();
 
   return (
     <header className="bg-background/50 flex h-14 items-center gap-3 backdrop-blur-xl lg:h-[60px] w-full sticky z-10">
@@ -17,6 +20,7 @@ export const Header = () => {
         <Menu size={16} />
       </button>
 
+      <span className="text-red-400">{userStore?.user?.email}email</span>
       <Space />
 
       <button
@@ -48,4 +52,4 @@ export const Header = () => {
       </Avatar>
     </header>
   );
-};
+});

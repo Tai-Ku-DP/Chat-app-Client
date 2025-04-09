@@ -12,7 +12,7 @@ class Api {
       Api.instance = create({ baseURL: process.env.NEXT_PUBLIC_BASE_URL });
       Api.instance.axiosInstance.interceptors.request.use(
         (request) => {
-          const token = Api.token || Nookies.get(null)[CHAT_APP_CONSTANTS.Auth];
+          const token = Api.token || Nookies.get(null)[CHAT_APP_CONSTANTS.AUTH];
 
           if (token) {
             request.headers["Authorization"] = "Bearer " + token;
