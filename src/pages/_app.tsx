@@ -4,7 +4,7 @@ import { ThemeProvider } from "~/components/theme-provider";
 import { getCookiesUser } from "~/features";
 import { initializeStore } from "~/store/root-store";
 import { directionServerSide } from "~/lib";
-import { Api, ApiUser } from "~/apis";
+import { Api } from "~/apis";
 import { getSnapshot } from "mobx-state-tree";
 import App, { AppContext, AppInitialProps, AppProps } from "next/app";
 import { useMemo } from "react";
@@ -56,13 +56,13 @@ MyApp.getInitialProps = async (
 
   Api.setToken(cookies);
 
-  const user = await ApiUser.getProfile();
+  await store.userStore.getUSer();
 
-  if (user.kind === "ok") {
-    store.userStore.setUser(user.result);
-  }
-
-  if (!user && context.ctx.pathname !== "/login") {
+  if (
+    !store.userStore.user._id &&
+    !store.userStore.user &&
+    context.ctx.pathname !== "/login"
+  ) {
     directionServerSide("/login", context.ctx);
     return {
       pageProps: "",
