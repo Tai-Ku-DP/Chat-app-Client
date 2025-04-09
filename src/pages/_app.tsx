@@ -14,6 +14,9 @@ type IProps = {
   initialState?: unknown;
 };
 function MyApp({ Component, pageProps, initialState }: AppProps & IProps) {
+  //   Tóm tắt luồng:
+  // Server: Tạo store mới → Lấy dữ liệu → Truyền vào trang → Render.
+  // Client: Tạo store một lần → Đồng bộ dữ liệu từ server (nếu có) → Dùng lại mãi mãi.
   const rootStore = useMemo(
     () => initializeStore(initialState),
     [initialState]

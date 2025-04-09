@@ -3,19 +3,25 @@ import { IRootStore, IRootStoreSnapshotIn, RootStore } from "./root-store";
 
 let store: IRootStore | undefined;
 
+// Hàm initializeStore là nơi bạn "xây dựng" kho hàng thực sự từ bản thiết kế.
+// Nếu có dữ liệu ban đầu (snapshot), nó sẽ "đổ" dữ liệu đó vào store. Nếu không, store bắt đầu trống rỗng.
+// Trên server (SSR/SSG), mỗi lần request sẽ tạo một store mới. Trên client (trình duyệt), store chỉ tạo một lần và được tái sử dụng.
 export function initializeStore(
   snapshot: IRootStoreSnapshotIn | null | unknown
 ) {
+  // Nếu store chưa được tạo thì tạo mới, nếu đã có thì sử dụng cái đã tồn tại
+
   const _store = store ?? RootStore.create({});
 
-  // If your page has Next.js data fetching methods that use a Mobx store, it will
-  // get hydrated here, check `pages/ssg.tsx` and `pages/ssr.tsx` for more details
+  // Nếu có snapshot từ phía server hoặc khi rehydrate, áp dụng vào store
   if (snapshot) {
     applySnapshot(_store, snapshot);
   }
-  // For SSG and SSR always create a new store
+
+  // Trường hợp server-side (SSG hoặc SSR): tạo luôn một store mới
   if (typeof window === "undefined") return _store;
-  // Create the store once in the client
+
+  // Trường hợp client: chỉ tạo store một lần duy nhất và lưu trữ vào biến toàn cục
   if (!store) store = _store;
 
   return store;
