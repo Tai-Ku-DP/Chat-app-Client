@@ -19,8 +19,8 @@ export const CONSTANT_MENU_ITEM: IMenuItem[] = [
     icon: <Users />,
   },
   {
-    href: "conversation",
-    label: "Conversations",
+    href: "chat",
+    label: "chats",
     icon: <MessageSquare />,
   },
 ];
