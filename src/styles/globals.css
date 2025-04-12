@@ -37,7 +37,8 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
-  --sidebar-width: 16rem;
+  --sidebar-default-width: 16rem;
+  --sidebar-collapse-width: 4rem;
 }
 
 @theme inline {
@@ -129,7 +130,8 @@ body {
 
 @theme {
   /* SIDEBAR */
-  --spacing-sidebar-width: var(--sidebar-width);
+  --spacing-sidebar-default-width: var(--sidebar-default-width);
+  --spacing-sidebar-collapse-width: var(--sidebar-collapse-width);
 }
 
 @layer base {

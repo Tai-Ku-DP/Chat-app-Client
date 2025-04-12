@@ -1,19 +1,37 @@
-import Link from "next/link";
+import React from "react";
 import { CONSTANT_MENU_ITEM } from "../utils";
+import { SidebarItem } from "./sidebar-item";
+import { IActionSidebar } from "../hook";
+import { cn } from "~/lib";
 
-export const Sidebar = () => {
+export type IPropsSidebarContainer = Pick<
+  IActionSidebar,
+  "isCollapseSidebar" | "widthSidebar"
+>;
+
+export const Sidebar: React.FC<IPropsSidebarContainer> = ({
+  isCollapseSidebar,
+  widthSidebar,
+}) => {
   return (
-    <div className="fixed inset-y-0 z-10 hidden h-svh w-sidebar-width md:flex left-0 p-2">
-      <div className="bg-white dark:bg-sidebar w-full p-2 border rounded-md flex flex-col gap-1 overflow-hidden overflow-y-scroll ">
+    <div
+      className={cn(
+        "fixed inset-y-0 z-10 hidden h-svh md:flex left-0 p-2 transition-all duration-300",
+        widthSidebar
+      )}
+    >
+      <div
+        className={cn(
+          "bg-white dark:bg-sidebar w-full p-2 border rounded-md",
+          "flex flex-col gap-1 overflow-hidden overflow-y-scroll"
+        )}
+      >
         {CONSTANT_MENU_ITEM.map((item) => (
-          <Link
-            href={item?.href || ""}
-            className="flex cursor-pointer w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-hidden [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-gray-500 hover:bg-sidebar-accent hover:text-bg-sidebar-accent-foreground h-8 text-sm"
+          <SidebarItem
             key={item.href}
-          >
-            {item.icon}
-            <span>{item.label}</span>
-          </Link>
+            item={item}
+            isCollapseSidebar={isCollapseSidebar}
+          />
         ))}
       </div>
     </div>

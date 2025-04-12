@@ -1,26 +1,31 @@
 "use client";
 
-import { Bell, Menu, Moon, Sun } from "lucide-react";
+import { Bell, Moon, PanelLeft, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { useStores } from "~/store/root-store/root-store-context";
-import { observer } from "mobx-react-lite";
+import { IActionSidebar } from "../hook";
+import React from "react";
 
 const Space = () => <div className="flex-1" />;
-export const Header = observer(() => {
+
+type IProps = Pick<
+  IActionSidebar,
+  "toggleCollapseSidebar" | "isCollapseSidebar"
+>;
+
+export const Header: React.FC<IProps> = ({ toggleCollapseSidebar }) => {
   const { theme, setTheme } = useTheme();
-  const { userStore } = useStores();
 
   return (
     <header className="bg-background/50 flex h-14 items-center gap-3 backdrop-blur-xl lg:h-[60px] w-full sticky z-10">
       <button
+        onClick={toggleCollapseSidebar}
         data-slot="button"
         className="flex items-center size-9 border rounded-md justify-center cursor-pointer hover:bg-accent transition-all duration-300"
       >
-        <Menu size={16} />
+        <PanelLeft size={16} />
       </button>
 
-      <span className="text-red-400">{userStore?.user?.email}email</span>
       <Space />
 
       <button
@@ -52,4 +57,4 @@ export const Header = observer(() => {
       </Avatar>
     </header>
   );
-});
+};

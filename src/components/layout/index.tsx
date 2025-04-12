@@ -1,6 +1,7 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import { observer } from "mobx-react-lite";
+import { useActionSidebar } from "./hook";
 
 type IProps = {
   children: React.ReactNode;
@@ -14,15 +15,43 @@ const Sidebar = dynamic(() => import("./sidebar").then((mo) => mo.Sidebar), {
   ssr: false,
 });
 
-export const Layout: React.FC<IProps> = observer(({ children }) => {
+const Main = dynamic(() => import("./main").then((mo) => mo.Main), {
+  ssr: false,
+});
+
+const WrapContainer = dynamic(
+  () => import("./wrap-container").then((mo) => mo.WrapContainer),
+  {
+    ssr: false,
+  }
+);
+
+const LayoutComponent: React.FC<IProps> = ({ children }) => {
+  const {
+    isCollapseSidebar,
+    paddingLeftSidebar,
+    widthSidebar,
+
+    toggleCollapseSidebar,
+  } = useActionSidebar();
+
   return (
     <div className="flex">
-      <Sidebar />
-      <div className="flex flex-col flex-1 pl-[calc(var(--sidebar-width)+1rem)] pr-4">
-        <Header />
+      <Sidebar
+        isCollapseSidebar={isCollapseSidebar}
+        widthSidebar={widthSidebar}
+      />
 
-        <main className="relative flex w-full flex-1 flex-col">{children}</main>
-      </div>
+      <WrapContainer paddingLeftSidebar={paddingLeftSidebar}>
+        <Header
+          toggleCollapseSidebar={toggleCollapseSidebar}
+          isCollapseSidebar={isCollapseSidebar}
+        />
+
+        <Main>{children}</Main>
+      </WrapContainer>
     </div>
   );
-});
+};
+
+export const Layout = observer(LayoutComponent);
