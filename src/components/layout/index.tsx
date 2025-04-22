@@ -36,7 +36,7 @@ const LayoutComponent: React.FC<IProps> = ({ children }) => {
   } = useActionSidebar();
 
   return (
-    <div className="flex">
+    <div className="flex h-screen overflow-y-auto">
       <Sidebar
         isCollapseSidebar={isCollapseSidebar}
         widthSidebar={widthSidebar}

@@ -18,9 +18,9 @@ export const useActionSidebar = () => {
 
   const calcPaddingLeftSidebar = useCallback(() => {
     if (isCollapseSidebar)
-      return "pl-4 md:pl-[calc(var(--sidebar-collapse-width)+1rem)]";
+      return "pl-4 md:pl-[calc(var(--sidebar-collapse-width))]";
 
-    return "pl-4 md:pl-[calc(var(--sidebar-default-width)+1rem)]";
+    return "pl-4 md:pl-[calc(var(--sidebar-default-width))]";
   }, [isCollapseSidebar]);
 
   return {
