@@ -5,7 +5,5 @@ type IProps = {
 };
 
 export const Main: React.FC<IProps> = ({ children }) => {
-  return (
-    <main className="relative flex w-full flex-1 flex-col">{children}</main>
-  );
+  return <main className="p-4 pt-16">{children}</main>;
 };
