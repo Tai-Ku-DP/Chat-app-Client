@@ -10,24 +10,39 @@ import {
 } from "~/components/ui/dialog";
 import { Input } from "~/components/ui/input";
 import { ListUser } from "../list-friend";
-import { IActionFriend } from "../hook";
+import { IActionFriendRequest, IActionSearchFriend } from "../hook";
 
-type Props = {
-  open: boolean;
-  onClose: () => void;
-} & Pick<
-  IActionFriend,
+type PropsActionSearchFriend = Pick<
+  IActionSearchFriend,
   "listSearchFriend" | "searchFriend" | "isLoadingFriendSearch"
 >;
 
-const DialogAddFriendComponent: React.FC<Props> = ({
+type PropsActionFriendRequest = Pick<
+  IActionFriendRequest,
+  "acceptFriendRequest" | "sendFriendRequest" | "cancelFriendRequest"
+>;
+
+export type PropsDialogAddFriendParent = {
+  open: boolean;
+  onClose: () => void;
+} & PropsActionSearchFriend &
+  PropsActionFriendRequest;
+
+const DialogAddFriendComponent: React.FC<PropsDialogAddFriendParent> = ({
   open,
+
   isLoadingFriendSearch,
   listSearchFriend,
   searchFriend,
+
+  acceptFriendRequest,
+  sendFriendRequest,
+  cancelFriendRequest,
+
   onClose,
 }) => {
   console.log(JSON.parse(JSON.stringify(listSearchFriend)));
+
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="px-0 h-[calc(100vh-64px)]">
@@ -58,7 +73,13 @@ const DialogAddFriendComponent: React.FC<Props> = ({
             />
           </div>
 
-          <ListUser listSearchFriend={listSearchFriend} />
+          <ListUser
+            listSearchFriend={listSearchFriend}
+            //
+            acceptFriendRequest={acceptFriendRequest}
+            sendFriendRequest={sendFriendRequest}
+            cancelFriendRequest={cancelFriendRequest}
+          />
         </div>
       </DialogContent>
     </Dialog>

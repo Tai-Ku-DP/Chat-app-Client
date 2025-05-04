@@ -3,8 +3,8 @@ import { useCallback, useState } from "react";
 import { GetReturnType } from "~/lib";
 import { useStores } from "~/store/root-store/root-store-context";
 
-export type IActionFriend = GetReturnType<typeof useSearchFriend>;
-export const useSearchFriend = () => {
+export type IActionSearchFriend = GetReturnType<typeof useActionSearchFriend>;
+export const useActionSearchFriend = () => {
   const { friendStore } = useStores();
 
   const [isLoadingFriendSearch, setIsLoadingFriendSearch] = useState(false);

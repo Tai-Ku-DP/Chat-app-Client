@@ -17,15 +17,11 @@ export const useActionsLogin = () => {
         const res = await ApiAuth.login(values);
 
         if (res.kind !== "ok") {
-          toast.error("Email or Password some wrong", {
-            position: "top-center",
-          });
+          toast.error("Email or Password some wrong");
           return;
         }
 
-        toast.success("Login Success", {
-          position: "top-center",
-        });
+        toast.success("Login Success");
 
         setCookiesUser({
           value: res.result.token,
@@ -37,7 +33,7 @@ export const useActionsLogin = () => {
     },
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [router]
+    []
   );
 
   return {

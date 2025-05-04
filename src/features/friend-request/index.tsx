@@ -3,15 +3,22 @@ import {
   DialogAddFriend,
   FriendRequestsHeader,
   InputSearch,
-  useSearchFriend,
+  useActionFriendRequest,
+  useActionSearchFriend,
 } from "./components";
 import { useCallback, useState } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import { Button } from "~/components/ui/button";
+import { Check, Plus, X } from "lucide-react";
 
 const FriendRequestComponent = () => {
   const [openDialogAddFriend, setOpenDialogAddFriend] = useState(false);
 
   const { searchFriend, isLoadingFriendSearch, listSearchFriend } =
-    useSearchFriend();
+    useActionSearchFriend();
+
+  const { sendFriendRequest, acceptFriendRequest, cancelFriendRequest } =
+    useActionFriendRequest();
 
   const toggleOpenDialogAddFriend = useCallback(
     () => setOpenDialogAddFriend((prev) => !prev),
@@ -31,7 +38,7 @@ const FriendRequestComponent = () => {
             />
           </div>
 
-          {/* <div className="space-y-4">
+          <div className="space-y-4">
             <div className="text-sm font-medium text-muted-foreground">
               PENDING REQUESTS (3)
             </div>
@@ -183,15 +190,22 @@ const FriendRequestComponent = () => {
                 </Button>
               </div>
             </div>
-          </div> */}
+          </div>
         </div>
       </div>
 
       <DialogAddFriend
         open={openDialogAddFriend}
+        //
         isLoadingFriendSearch={isLoadingFriendSearch}
         searchFriend={searchFriend}
         listSearchFriend={listSearchFriend}
+        //
+        sendFriendRequest={sendFriendRequest}
+        acceptFriendRequest={acceptFriendRequest}
+        cancelFriendRequest={cancelFriendRequest}
+        //
+
         onClose={toggleOpenDialogAddFriend}
       />
     </>

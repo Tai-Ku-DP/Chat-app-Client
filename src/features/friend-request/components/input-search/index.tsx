@@ -1,10 +1,13 @@
 import { Loader2, Search } from "lucide-react";
 import React from "react";
 import { Input } from "~/components/ui/input";
-import { IActionFriend } from "../hook";
+import { IActionSearchFriend } from "../hook";
 import { observer } from "mobx-react-lite";
 
-type IProps = Pick<IActionFriend, "searchFriend" | "isLoadingFriendSearch">;
+type IProps = Pick<
+  IActionSearchFriend,
+  "searchFriend" | "isLoadingFriendSearch"
+>;
 export const InputSearch: React.FC<IProps> = observer(
   ({ searchFriend, isLoadingFriendSearch }) => {
     return (

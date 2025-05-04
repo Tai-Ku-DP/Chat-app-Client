@@ -5,7 +5,14 @@ import {
   ResponseSearchUserWithStatus,
 } from "~/apis/user/types";
 import { extendEnv } from "../extendEnv";
-import { IFriendSearch } from "./types";
+import { IFriendSearch, StatusFriend } from "./types";
+import {
+  IPramsAcceptFriendRequest,
+  IPramsDeleteFriendRequest,
+  IPramsSendFriendRequest,
+  ResponseBooleanCommon,
+  ResponseCommonFriendRequest,
+} from "~/apis/friend/types";
 
 export const FriendStore = types
   .model("Friend Store", {
@@ -37,4 +44,72 @@ export const FriendStore = types
     setIsFetchingFriendSearch(value: boolean) {
       self.isFetchingFriendSearch = value;
     },
+
+    acceptFriend: flow(function* (
+      friendSearchId: string,
+      params: IPramsAcceptFriendRequest
+    ) {
+      const res: ResponseBooleanCommon =
+        yield self.apiFriend.acceptFriendRequest({
+          ...params,
+        });
+
+      if (res.kind === "ok") {
+        const friendStatus =
+          self.friendSearch.get(friendSearchId)?.friendStatus;
+
+        if (friendStatus) {
+          friendStatus?.setFriendSearchStatus({
+            ...friendStatus,
+            status: StatusFriend.ACCEPTED,
+          });
+        }
+      }
+
+      return res.kind === "ok";
+    }),
+
+    sendFriendRequest: flow(function* (
+      friendSearchId: string,
+      params: IPramsSendFriendRequest
+    ) {
+      const res: ResponseCommonFriendRequest =
+        yield self.apiFriend.sendFriendRequest({
+          ...params,
+        });
+
+      if (res.kind === "ok") {
+        const friendStatus =
+          self.friendSearch.get(friendSearchId)?.friendStatus;
+
+        friendStatus?.setFriendSearchStatus({
+          ...res.result,
+        });
+      }
+
+      return res.kind === "ok";
+    }),
+
+    cancelFriendRequest: flow(function* (
+      friendSearchId: string,
+      params: IPramsDeleteFriendRequest
+    ) {
+      const res: ResponseCommonFriendRequest =
+        yield self.apiFriend.cancelFriendRequest({
+          ...params,
+        });
+
+      if (res.kind === "ok") {
+        const friendStatus =
+          self.friendSearch.get(friendSearchId)?.friendStatus;
+
+        console.log(res.result);
+
+        friendStatus?.setFriendSearchStatus({
+          ...res.result,
+        });
+      }
+
+      return res.kind === "ok";
+    }),
   }));

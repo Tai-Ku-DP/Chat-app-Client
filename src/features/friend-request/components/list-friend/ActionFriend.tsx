@@ -3,7 +3,8 @@ import { observer } from "mobx-react-lite";
 import React from "react";
 import { Button } from "~/components/ui/button";
 import { TooltipCustom } from "~/components/ui/tooltip";
-import { IFriendSearchStatus, StatusFriend } from "~/store/friend-store/types";
+import { IFriendSearch, StatusFriend } from "~/store/friend-store/types";
+import { PropsDialogAddFriendParent } from "../dialog-add-friend";
 
 type IPropsButton = {
   onClick: () => void;
@@ -35,41 +36,77 @@ const ButtonAccept: React.FC<IPropsButton> = ({ onClick }) => {
   );
 };
 
-const ButtonAdd: React.FC<IPropsButton> = ({ onClick }) => {
+const ButtonSend: React.FC<IPropsButton> = ({ onClick }) => {
   return (
-    <TooltipCustom content="Send friend request">
+    <TooltipCustom content="Add Friend">
       <Button onClick={onClick} size="sm" variant="outline" className="gap-1">
         <UserPlus className="size-4" />
+        <span>Add</span>
       </Button>
     </TooltipCustom>
   );
 };
 
 type IProps = {
-  friendStatus: IFriendSearchStatus | null;
-};
-const ActionFriendComponent: React.FC<IProps> = ({ friendStatus }) => {
+  item: IFriendSearch | null;
+} & Pick<
+  PropsDialogAddFriendParent,
+  "sendFriendRequest" | "acceptFriendRequest" | "cancelFriendRequest"
+>;
+const ActionFriendComponent: React.FC<IProps> = ({
+  item,
+  sendFriendRequest,
+  acceptFriendRequest,
+  cancelFriendRequest,
+}) => {
   const { PENDING } = StatusFriend;
 
-  if (!friendStatus?.status)
+  const friendStatus = item?.friendStatus;
+
+  if (!friendStatus?.status && !friendStatus?.requestId)
     return (
       <div className="flex items-center gap-2">
-        <ButtonAdd onClick={() => console.log("Click ButtonAdd")} />
+        <ButtonSend
+          onClick={() =>
+            sendFriendRequest(item?._id || "", {
+              receiverId: item?.user?._id || "",
+            })
+          }
+        />
       </div>
     );
 
   if (!friendStatus?.isSender && friendStatus?.status === PENDING)
     return (
       <div className="flex items-center gap-2">
-        <ButtonCancel onClick={() => console.log("Click ButtonCancel")} />
-        <ButtonAccept onClick={() => console.log("Click ButtonAccept")} />
+        <ButtonCancel
+          onClick={() =>
+            cancelFriendRequest(item?._id || "", {
+              requestId: friendStatus.requestId,
+            })
+          }
+        />
+
+        <ButtonAccept
+          onClick={() =>
+            acceptFriendRequest(item?._id || "", {
+              requestId: friendStatus.requestId,
+            })
+          }
+        />
       </div>
     );
 
   if (friendStatus?.isSender && friendStatus?.status === PENDING)
     return (
       <div className="flex items-center gap-2">
-        <ButtonCancel onClick={() => console.log("Click ButtonCancel")} />
+        <ButtonCancel
+          onClick={() =>
+            cancelFriendRequest(item?._id || "", {
+              requestId: friendStatus.requestId,
+            })
+          }
+        />
       </div>
     );
 };
