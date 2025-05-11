@@ -9,6 +9,7 @@ import { getSnapshot } from "mobx-state-tree";
 import App, { AppContext, AppInitialProps, AppProps } from "next/app";
 import { useMemo } from "react";
 import { RootStoreProvider } from "~/store/root-store/root-store-context";
+import { socket, SocketProvider } from "~/contexts/socket/SocketContext";
 
 type IProps = {
   initialState?: unknown;
@@ -24,17 +25,19 @@ function MyApp({ Component, pageProps, initialState }: AppProps & IProps) {
 
   return (
     <>
-      <RootStoreProvider value={rootStore}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Component {...pageProps} />
-          <Toaster />
-        </ThemeProvider>
-      </RootStoreProvider>
+      <SocketProvider value={socket}>
+        <RootStoreProvider value={rootStore}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Component {...pageProps} />
+            <Toaster />
+          </ThemeProvider>
+        </RootStoreProvider>
+      </SocketProvider>
     </>
   );
 }
