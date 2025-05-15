@@ -1,7 +1,6 @@
 import { useCallback } from "react";
+import { GetReturnType } from "~/lib";
 import { useStores } from "~/store/root-store/root-store-context";
-
-type GetReturnType<T> = T extends (...args: unknown[]) => infer R ? R : never;
 
 export type IActionSidebar = GetReturnType<typeof useActionSidebar>;
 

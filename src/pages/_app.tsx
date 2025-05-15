@@ -59,13 +59,11 @@ MyApp.getInitialProps = async (
 
   Api.setToken(cookies);
 
-  await store.userStore.getUSer();
+  const user = await store.userStore.getUser();
 
-  if (
-    !store.userStore.user._id &&
-    !store.userStore.user &&
-    context.ctx.pathname !== "/login"
-  ) {
+  console.log(!user?._id && context.ctx.pathname !== "/login");
+
+  if (!user?._id && context.ctx.pathname !== "/login") {
     directionServerSide("/login", context.ctx);
     return {
       pageProps: "",

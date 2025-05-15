@@ -1,5 +1,5 @@
 import { getEnv, IAnyStateTreeNode } from "mobx-state-tree";
-import { ApiAuth, ApiUser } from "~/apis";
+import { ApiAuth, ApiFriend, ApiUser } from "~/apis";
 
 export const extendEnv = (self: IAnyStateTreeNode) => {
   return {
@@ -12,6 +12,7 @@ export const extendEnv = (self: IAnyStateTreeNode) => {
     state: {
       apiUser: ApiUser,
       apiAuth: ApiAuth,
+      apiFriend: ApiFriend,
     },
   };
 };

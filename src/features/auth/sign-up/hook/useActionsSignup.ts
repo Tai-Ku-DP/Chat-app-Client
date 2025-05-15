@@ -18,24 +18,18 @@ export const useActionsSignup = () => {
       const res = await ApiAuth.signUp(values);
 
       if (res.kind === "conflict") {
-        toast.error("Email existed", {
-          position: "top-center",
-        });
+        toast.error("Email existed");
         return;
       }
 
       if (res.kind !== "ok") {
-        toast.error("Something went wrong !!", {
-          position: "top-center",
-        });
+        toast.error("Something went wrong !!");
         return;
       }
 
       await sleep();
 
-      toast.success("Register Success", {
-        position: "top-center",
-      });
+      toast.success("Register Success");
 
       setCookiesUser({
         value: res.result.token,
