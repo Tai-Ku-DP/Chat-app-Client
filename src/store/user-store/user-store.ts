@@ -9,7 +9,7 @@ export const UserStore = types
   })
   .extend(extendEnv)
   .actions((self) => ({
-    getUSer: flow(function* () {
+    getUser: flow(function* () {
       const res: ResponseUser = yield self.apiUser.getProfile();
 
       if (res.kind !== "ok") return undefined;

@@ -47,4 +47,21 @@ function AvatarFallback({
   );
 }
 
-export { Avatar, AvatarImage, AvatarFallback };
+type IProps = {
+  src: string;
+  fullName: string;
+  className?: string;
+};
+const AvatarCustom: React.FC<IProps> = ({ src, fullName, className }) => {
+  return (
+    <Avatar className={cn("size-8", className)}>
+      {src && <AvatarImage src={src || "/placeholder.svg"} alt={fullName} />}
+
+      <AvatarFallback className="bg-primary/10 text-primary">
+        {fullName.slice(0, 1) || ""}
+      </AvatarFallback>
+    </Avatar>
+  );
+};
+
+export { AvatarCustom, Avatar, AvatarImage, AvatarFallback };
